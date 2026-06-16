@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PassGuard Ultimate</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0d0f14;
+  --surface:#161a24;
+  --border:#252b3b;
+  --text:#e2e8f0;
+  --muted:#64748b;
+  --green:#22d3a5;
+  --yellow:#fbbf24;
+  --orange:#f97316;
+  --red:#f43f5e;
+  --accent:#6366f1;
+  --radius:14px;
+  --mono:'Courier New',Courier,monospace;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Segoe UI',system-ui,sans-serif;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px 16px;
+  position:relative;
+  overflow-x:hidden;
+}
+
+.bg-grid{
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(99,102,241,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(99,102,241,.04) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;z-index:0;
+}
+
+main{
+  position:relative;z-index:1;
+  width:100%;max-width:500px;
+  display:flex;flex-direction:column;gap:24px;
+}
+
+header{text-align:center;}
+
+.logo{
+  font-size:2rem;font-weight:800;
+  font-family:var(--mono);
+  color:var(--green);
+  text-shadow:0 0 24px rgba(34,211,165,.4);
+  letter-spacing:-0.5px;
+}
+
+.tagline{margin-top:6px;color:var(--muted);font-size:.92rem;}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:28px 24px;
+  display:flex;flex-direction:column;gap:16px;
+}
+
+.field-label{
+  font-size:.8rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.08em;font-weight:600;
+}
+
+.input-wrap{
+  display:flex;
+  border:1.5px solid var(--border);
+  border-radius:8px;overflow:hidden;
+  transition:border-color .2s;
+}
+.input-wrap:focus-within{border-color:var(--accent);}
+
+#pwd{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--text);font-size:1rem;
+  font-family:var(--mono);
+  padding:12px 14px;letter-spacing:.05em;
+}
+#pwd::placeholder{color:var(--muted);letter-spacing:0;}
+
+.icon-btn{
+  background:transparent;border:none;cursor:pointer;
+  padding:0 14px;font-size:1.1rem;color:var(--muted);
+  transition:color .2s;
+}
+.icon-btn:hover{color:var(--text);}
+
+/* Stats row */
+.stats-row{
+  display:flex;gap:10px;
+}
+.stat-box{
+  flex:1;background:rgba(99,102,241,.07);
+  border:1px solid rgba(99,102,241,.15);
+  border-radius:8px;padding:10px 12px;text-align:center;
+}
+.stat-val{
+  font-size:1rem;font-weight:700;font-family:var(--mono);
+  color:var(--accent);
+}
+.stat-lbl{font-size:.7rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.06em;}
+
+/* Strength bar */
+.bar-wrap{height:6px;background:var(--border);border-radius:99px;overflow:hidden;}
+.bar{height:100%;width:0%;border-radius:99px;transition:width .4s ease,background .4s ease;}
+
+.strength-row{display:flex;justify-content:space-between;align-items:center;margin-top:-6px;}
+.strength-label{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);transition:color .3s;}
+.crack-time{font-size:.8rem;color:var(--muted);}
+
+/* Criteria */
+.criteria{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.criteria li{
+  font-size:.87rem;font-family:var(--mono);color:var(--muted);
+  padding:8px 12px;border-radius:6px;border:1px solid transparent;
+  transition:color .25s,background .25s,border-color .25s;
+}
+.criteria li.met{
+  color:var(--green);
+  background:rgba(34,211,165,.07);
+  border-color:rgba(34,211,165,.2);
+}
+
+/* Tip box */
+.tip-box{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(99,102,241,.08);
+  border:1px solid rgba(99,102,241,.2);
+  border-radius:8px;padding:12px 14px;
+  font-size:.87rem;color:#a5b4fc;line-height:1.5;min-height:50px;
+}
+.tip-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+
+/* Action buttons */
+.action-row{display:flex;gap:10px;}
+.action-btn{
+  flex:1;padding:11px;border:none;border-radius:8px;
+  cursor:pointer;font-size:.88rem;font-weight:600;
+  background:rgba(99,102,241,.15);
+  color:#a5b4fc;border:1px solid rgba(99,102,241,.25);
+  transition:background .2s,transform .1s;
+}
+.action-btn:hover{background:rgba(99,102,241,.28);}
+.action-btn:active{transform:scale(.97);}
+
+footer{text-align:center;color:var(--muted);font-size:.76rem;line-height:1.8;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:400px){
+  .card{padding:20px 16px;}
+  .logo{font-size:1.6rem;}
+  .stats-row{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<main>
+  <header>
+    <div class="logo">🔐 PassGuard</div>
+    <p class="tagline">Know exactly how strong your password is.</p>
+  </header>
+
+  <section class="card">
+    <div class="field-label">Enter or generate a password</div>
+
+    <div class="input-wrap">
+      <input type="password" id="pwd" placeholder="Type your password here..." autocomplete="off" spellcheck="false"/>
+      <button class="icon-btn" id="toggleBtn" title="Show/Hide">👁</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-val" id="lenVal">0</div>
+        <div class="stat-lbl">Length</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="entropyVal">0</div>
+        <div class="stat-lbl">Entropy (bits)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="crackVal">—</div>
+        <div class="stat-lbl">Crack Time</div>
+      </div>
+    </div>
+
+    <!-- Bar -->
+    <div class="bar-wrap"><div class="bar" id="bar"></div></div>
+    <div class="strength-row">
+      <span class="strength-label" id="strengthLabel">—</span>
+    </div>
+
+    <!-- Criteria -->
+    <ul class="criteria">
+      <li id="c1" class="unmet">✗ At least 8 characters</li>
+      <li id="c2" class="unmet">✗ Uppercase letter (A–Z)</li>
+      <li id="c3" class="unmet">✗ Lowercase letter (a–z)</li>
+      <li id="c4" class="unmet">✗ Number (0–9)</li>
+      <li id="c5" class="unmet">✗ Special character (!@#$…)</li>
+    </ul>
+
+    <!-- Tip box -->
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <span id="tipText">Start typing to get a tip.</span>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="action-row">
+      <button class="action-btn" id="generateBtn">🎲 Generate</button>
+      <button class="action-btn" id="copyBtn">📋 Copy</button>
+      <button class="action-btn" id="clearBtn">🗑 Clear</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>Passwords are never sent anywhere — everything runs in your browser.</p>
+    <p>Built with HTML · CSS · JS</p>
+  </footer>
+</main>
+
+<script>
+const pwd        = document.getElementById('pwd');
+const toggleBtn  = document.getElementById('toggleBtn');
+const bar        = document.getElementById('bar');
+const strengthLabel = document.getElementById('strengthLabel');
+const tipText    = document.getElementById('tipText');
+const lenVal     = document.getElementById('lenVal');
+const entropyVal = document.getElementById('entropyVal');
+const crackVal   = document.getElementById('crackVal');
+
+const criteria = [
+  { el: document.getElementById('c1'), test: v => v.length >= 8,        label: 'At least 8 characters' },
+  { el: document.getElementById('c2'), test: v => /[A-Z]/.test(v),      label: 'Uppercase letter (A–Z)' },
+  { el: document.getElementById('c3'), test: v => /[a-z]/.test(v),      label: 'Lowercase letter (a–z)' },
+  { el: document.getElementById('c4'), test: v => /[0-9]/.test(v),      label: 'Number (0–9)' },
+  { el: document.getElementById('c5'), test: v => /[^A-Za-z0-9]/.test(v), label: 'Special character (!@#$…)' },
+];
+
+const tips = {
+  empty:     'Start typing to get a tip.',
+  weak:      'Way too easy to crack. Add uppercase letters, numbers, and symbols.',
+  fair:      'Getting better! Mix in symbols like @, #, or ! to level up.',
+  good:      'Solid! Try making it 12+ characters for even stronger protection.',
+  strong:    'Strong password! Store it safely in a password manager.',
+  veryStrong:'🔥 Beast mode! This password would take centuries to crack.',
+};
+
+// Toggle show/hide
+toggleBtn.addEventListener('click', () => {
+  const hidden = pwd.type === 'password';
+  pwd.type = hidden ? 'text' : 'password';
+  toggleBtn.textContent = hidden ? '🙈' : '👁';
+});
+
+// Generate strong password
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}';
+  let p = '';
+  for (let i = 0; i < 16; i++) p += chars[Math.floor(Math.random() * chars.length)];
+  pwd.value = p;
+  pwd.dispatchEvent(new Event('input'));
+});
+
+// Copy to clipboard
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  if (!pwd.value) return;
+  try {
+    await navigator.clipboard.writeText(pwd.value);
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy', 1800);
+  } catch(e) {
+    alert('Copy failed. Please copy manually.');
+  }
+});
+
+// Clear
+document.getElementById('clearBtn').addEventListener('click', () => {
+  pwd.value = '';
+  pwd.dispatchEvent(new Event('input'));
+  pwd.focus();
+});
+
+// Entropy calculation
+function calcEntropy(v) {
+  let pool = 0;
+  if (/[a-z]/.test(v)) pool += 26;
+  if (/[A-Z]/.test(v)) pool += 26;
+  if (/[0-9]/.test(v)) pool += 10;
+  if (/[^A-Za-z0-9]/.test(v)) pool += 32;
+  if (pool === 0) return 0;
+  return Math.round(v.length * Math.log2(pool));
+}
+
+// Crack time label
+function crackTimeLabel(entropy) {
+  if (entropy < 28)  return 'Seconds';
+  if (entropy < 36)  return 'Minutes';
+  if (entropy < 50)  return 'Hours';
+  if (entropy < 60)  return 'Days';
+  if (entropy < 80)  return 'Years';
+  if (entropy < 100) return 'Decades';
+  return 'Centuries';
+}
+
+// Main analysis
+pwd.addEventListener('input', () => {
+  const v = pwd.value;
+
+  // Length + entropy
+  lenVal.textContent = v.length;
+  const entropy = calcEntropy(v);
+  entropyVal.textContent = entropy;
+
+  // Criteria
+  let metCount = 0;
+  criteria.forEach(c => {
+    const met = c.test(v);
+    if (met) metCount++;
+    c.el.textContent = (met ? '✓ ' : '✗ ') + c.label;
+    c.el.className   = met ? 'met' : 'unmet';
+  });
+
+  if (v.length === 0) {
+    setStrength(0, '—', '#64748b');
+    crackVal.textContent = '—';
+    tipText.textContent = tips.empty;
+    return;
+  }
+
+  crackVal.textContent = crackTimeLabel(entropy);
+
+  const score = metCount + (v.length >= 12 ? 1 : 0);
+
+  if (score <= 1)      setStrength(16,  'Weak',        'var(--red)',    tips.weak);
+  else if (score <= 2) setStrength(35,  'Fair',        'var(--orange)', tips.fair);
+  else if (score <= 3) setStrength(55,  'Good',        'var(--yellow)', tips.good);
+  else if (score <= 5) setStrength(80,  'Strong',      'var(--green)',  tips.strong);
+  else                 setStrength(100, 'Very Strong',  'var(--green)', tips.veryStrong);
+});
+
+function setStrength(width, text, color, tip) {
+  bar.style.width      = width + '%';
+  bar.style.background = color;
+  strengthLabel.textContent = text;
+  strengthLabel.style.color = color;
+  if (tip) tipText.textContent = tip;
+}
+</script>
+</body>
+</html>
