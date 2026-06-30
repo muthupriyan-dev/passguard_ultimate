@@ -36,7 +36,7 @@ https://muthupriyan-dev.github.io/passguard_ultimate/
 ## 📸 Screenshots
 
 ### Home
-![Home](screenshots/home.png)
+![Home](home.png)
 
 ### Password Generator
 ![Password Generator](screenshots/password-generator.png)
