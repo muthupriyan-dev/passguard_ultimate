@@ -39,13 +39,13 @@ https://muthupriyan-dev.github.io/passguard_ultimate/
 ![Home](home.png)
 
 ### Password Generator
-![Password Generator](screenshots/password-generator.png)
+![Password Generator](password-generator.png)
 
 ### Password Strength Checker
-![Password Strength Checker](screenshots/strength-checker.png)
+![Password Strength Checker](strength-checker.png)
 
 ### Password Leak Checker
-![Password Leak Checker](screenshots/leak-checker.png)
+![Password Leak Checker](leak-checker.png)
 
 
 🤝 Contributing
